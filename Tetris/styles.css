@@ -132,14 +132,20 @@
     }
 
     @media (max-width: 768px) {
-	.tetris {
-	flex-direction: column;
-	display: block;
-        align-items: center;
-	padding: 0;
-	width: 100%;
-	margin-top: 10vh;
-      }
+	  .tetris {
+    width: 100vw;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: 0;
+    margin-top: 10vh;
+  }
+
+  .grid {
+    width: 90vw;
+    max-width: 90vw;
+    margin: 5vh auto;
+  }
+
 
 .sc {
   display: flex;
@@ -164,19 +170,6 @@ height: 15vh;
 
 	height: 20vw !important;
 }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      width: auto;
-	margin: 5vh auto;
-      grid-auto-rows: 1fr;
-      gap: 0.3vh;
-      height: 72vh;
-      aspect-ratio: 10 / 20;
-      border: 1px solid white;
-      background-color: grey;
-    }
 
       .logo-container {
         order: -1;
