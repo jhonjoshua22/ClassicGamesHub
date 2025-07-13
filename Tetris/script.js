@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const height = 15;
   const cellCount = width * height;
   const cells = [];
-  
+
   // Create grid cells
   for (let i = 0; i < cellCount; i++) {
     const cell = document.createElement('div');
@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.appendChild(cell);
   }
 
-  // All Tetromino shapes with their colors
   const tetrominoes = {
     'I': {
       shape: [
@@ -87,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let gameInterval;
   let gameSpeed = 1000;
 
-  // Draw the current shape
   function draw() {
     currentShape.forEach(index => {
       const cellIndex = currentPosition + index;
@@ -97,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Remove the current shape
   function undraw() {
     currentShape.forEach(index => {
       const cellIndex = currentPosition + index;
@@ -107,87 +104,78 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Move the shape down
   function moveDown() {
     undraw();
-    
-    // Check if we can move down
+
     const canMove = currentShape.every(index => {
       const newPosition = currentPosition + index + width;
       return (
-        newPosition < cellCount && // Within grid bounds
-        !cells[newPosition].classList.contains('block') // No collision
+        newPosition < cellCount &&
+        !cells[newPosition].classList.contains('block')
       );
     });
 
     if (canMove) {
       currentPosition += width;
     } else {
-      // Can't move down - lock the piece
       draw();
       checkCompletedRows();
       generateNewTetromino();
-      
-      // Check if game over (new piece can't be placed)
+
       if (!isValidPosition()) {
         clearInterval(gameInterval);
         alert('Game Over!');
       }
     }
-    
+
     draw();
   }
 
-  // Move left
   function moveLeft() {
     undraw();
     const canMove = currentShape.every(index => {
       const newPosition = currentPosition + index - 1;
       return (
-        (currentPosition + index) % width !== 0 && // Not at left edge
-        newPosition >= 0 && // Not above grid
-        !cells[newPosition].classList.contains('block') // No collision
+        (currentPosition + index) % width !== 0 &&
+        newPosition >= 0 &&
+        !cells[newPosition].classList.contains('block')
       );
     });
-    
+
     if (canMove) currentPosition--;
     draw();
   }
 
-  // Move right
   function moveRight() {
     undraw();
     const canMove = currentShape.every(index => {
       const newPosition = currentPosition + index + 1;
       return (
-        (currentPosition + index) % width !== width - 1 && // Not at right edge
-        newPosition < cellCount && // Not below grid
-        !cells[newPosition].classList.contains('block') // No collision
+        (currentPosition + index) % width !== width - 1 &&
+        newPosition < cellCount &&
+        !cells[newPosition].classList.contains('block')
       );
     });
-    
+
     if (canMove) currentPosition++;
     draw();
   }
 
-  // Rotate the tetromino
   function rotate() {
     undraw();
     const nextRotation = (currentRotation + 1) % 4;
     const nextShape = currentTetromino.shape[nextRotation];
-    
-    // Check if rotation is possible
+
     const canRotate = nextShape.every(index => {
       const newPosition = currentPosition + index;
       return (
-        newPosition >= 0 && // Not above grid
-        newPosition < cellCount && // Not below grid
-        !cells[newPosition].classList.contains('block') && // No collision
-        // Check left/right boundaries
+        newPosition >= 0 &&
+        newPosition < cellCount &&
+        !cells[newPosition].classList.contains('block') &&
         Math.floor((currentPosition + index) / width) === Math.floor(currentPosition / width) + Math.floor(index / width)
       );
     });
-    
+
     if (canRotate) {
       currentRotation = nextRotation;
       currentShape = nextShape;
@@ -195,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
     draw();
   }
 
-  // Check if position is valid for new tetromino
   function isValidPosition() {
     return currentShape.every(index => {
       const cellIndex = currentPosition + index;
@@ -207,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Generate a new random tetromino
   function generateNewTetromino() {
     const tetrominoNames = Object.keys(tetrominoes);
     const randomName = tetrominoNames[Math.floor(Math.random() * tetrominoNames.length)];
@@ -226,19 +212,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const rowStart = row * width;
       const rowEnd = rowStart + width;
       const rowCells = cells.slice(rowStart, rowEnd);
-      
-      if (rowCells.every(cell => cell.classList.contains('block'))) {
-        // Remove the completed row
-        rowCells.forEach(cell => cell.classList.remove('block'));
-	score += 10;
-	document.getElementById('score').textContent = score;
-	if (score > hiscore) {
-		hiscore = score;
-		document.getElementById('hiscore').textContent = hiscore;
 
-	}
-        
-        // Move all above rows down
+      if (rowCells.every(cell => cell.classList.contains('block'))) {
+        rowCells.forEach(cell => cell.classList.remove('block'));
+        score += 10;
+        document.getElementById('score').textContent = score;
+        if (score > hiscore) {
+          hiscore = score;
+          document.getElementById('hiscore').textContent = hiscore;
+        }
+
         for (let i = rowStart - 1; i >= 0; i--) {
           if (cells[i].classList.contains('block')) {
             const className = Array.from(cells[i].classList).find(cls => cls !== 'block');
@@ -246,51 +229,66 @@ document.addEventListener('DOMContentLoaded', () => {
             cells[i + width].classList.add('block', className);
           }
         }
-        
-        // Check the same row again (since we moved everything down)
+
         row++;
       }
     }
   }
 
- document.getElementById('startBtn').addEventListener('click', () => {
-  if (gameInterval) {
-    clearInterval(gameInterval);
+  function startGame() {
+    if (gameInterval) clearInterval(gameInterval);
+    score = 0;
+    document.getElementById('score').textContent = score;
+    cells.forEach(cell => cell.className = '');
+    generateNewTetromino();
+    draw();
+    gameInterval = setInterval(moveDown, gameSpeed);
   }
 
-  // ✅ Reset the score properly
-  score = 0;
-  document.getElementById('score').textContent = score;
-
-  // ✅ Remove ALL class names (block + shape class)
-  cells.forEach(cell => {
-    cell.className = ''; // remove all classes, including 'block' and tetromino types
-  });
-
-  // ✅ Generate new piece and start the game
-  generateNewTetromino();
-  draw();
-  gameInterval = setInterval(moveDown, gameSpeed);
-});
-
+  document.getElementById('startBtn').addEventListener('click', startGame);
+  document.getElementById('startBtnM').addEventListener('click', startGame);
 
   // Keyboard controls
   document.addEventListener('keydown', (e) => {
     if (!gameInterval) return;
-    
     switch (e.key) {
-      case 'ArrowLeft':
-        moveLeft();
-        break;
-      case 'ArrowRight':
-        moveRight();
-        break;
-      case 'ArrowDown':
-        moveDown();
-        break;
-      case 'ArrowUp':
-        rotate();
-        break;
+      case 'ArrowLeft': moveLeft(); break;
+      case 'ArrowRight': moveRight(); break;
+      case 'ArrowDown': moveDown(); break;
+      case 'ArrowUp': rotate(); break;
+    }
+  });
+
+  // Touch controls
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchEndX = 0;
+  let touchEndY = 0;
+  const swipeThreshold = 30;
+
+  grid.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  });
+
+  grid.addEventListener('touchend', (e) => {
+    const touch = e.changedTouches[0];
+    touchEndX = touch.clientX;
+    touchEndY = touch.clientY;
+
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+
+    if (!gameInterval) return;
+
+    if (Math.abs(deltaX) < swipeThreshold && Math.abs(deltaY) < swipeThreshold) {
+      rotate();
+    } else if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 0) moveRight();
+      else moveLeft();
+    } else {
+      if (deltaY > 0) moveDown();
     }
   });
 });

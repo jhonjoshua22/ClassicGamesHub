@@ -1,145 +1,221 @@
-/* Apply border-box globally */
-* {
-  box-sizing: border-box;
+    /* Apply border-box globally */
+    * {
+      box-sizing: border-box;
+    }
 
-}
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      align-items: center;
+      margin: 0;
+      background-color: rgb(10, 10, 10);
+      padding: 2vw;
+      color: white;
+    }
 
-body {
+    a {
+      text-decoration: none;
+      color: white;
+    }
+
+    a:visited {
+      color: white;
+    }
+
+    a:hover {
+      color: lightgray;
+      text-decoration: none;
+    }
+
+    a:active {
+      color: white;
+    }
+
+    .navBar {
+      display: flex;
+      align-items: center;
+      padding: 1vw;
+      width: 100%;
+      z-index: 2;
+      position: fixed;
+      top: 0;
+      height: 6vw;
+      border-bottom: 2px solid black;
+      border-radius: 0 0 10px 10px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+    }
+
+    .homeButton {
+      margin-left: 2vw;
+      font-size: 2vw;
+    }
+
+    h1 {
+      font-size: 4vw;
+    }
+
+    .tetris {
+      margin-top: 6vw;
+      position: relative;
+      width: 80vw;
+      height: 80vh;
+      background: rgb(10, 10, 10);
+      padding: 2vw 6vw;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      width: auto;
+      grid-auto-rows: 1fr;
+      gap: 0.3vh;
+      height: 72vh;
+      aspect-ratio: 10 / 20;
+      border: 1px solid white;
+      background-color: grey;
+    }
+
+    .grid div {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 0.5px solid black;
+      background: black;
+    }
+
+    .block {
+      border-radius: 5px;
+    }
+
+    .block.I { border: 5px solid rgb(50, 180, 180); box-shadow: 0 4px 8px rgb(50, 180, 180); }
+    .block.O { border: 5px solid rgb(248, 0, 248); box-shadow: 0 4px 8px rgb(248, 0, 248); }
+    .block.T { border: 5px solid rgb(0, 0, 215); box-shadow: 0 4px 8px rgb(0, 0, 215); }
+    .block.S { border: 5px solid rgb(255, 0, 0); box-shadow: 0 4px 8px rgb(255, 0, 0); }
+    .block.Z { border: 5px solid rgb(255, 255, 0); box-shadow: 0 4px 8px rgb(255, 255, 0); }
+    .block.J { border: 5px solid rgb(255, 165, 0); box-shadow: 0 4px 8px rgb(255, 165, 0); }
+    .block.L { border: 5px solid rgb(30, 128, 30); box-shadow: 0 4px 8px rgb(30, 128, 30); }
+
+    .scores {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+	margin-right: 6vw;
+      flex: 1;
+    }
+
+    .logo-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      order: -1; /* default in case it's in flex */
+    }
+
+    .responsive-logo {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      height: 10vw;
+    }
+
+    #startBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+	width: 100px;
+      cursor: pointer;
+    }
+
+    span {
+      font-size: 25px;
+
+    }
+
+    @media (max-width: 768px) {
+	.tetris {
+	flex-direction: column;
+	display: block;
+        align-items: center;
+	padding: 0;
+	width: 100%;
+	margin-top: 10vh;
+      }
+
+.sc {
   display: flex;
-  flex-direction: column;
-  font-family: Arial, sans-serif;
-  align-items: center;
-  margin: 0;
-  background-color: rgb(10, 10, 10);
-  padding: 2vw;
-  color: white;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 0;
+  width: 90%;
+  text-align: center;
 }
 
-a {
-  text-decoration: none;
-  color: white;
-}
-
-a:visited {
-  color: white;
-}
-
-a:hover {
-  color: lightgray; /* Optional hover effect */
-  text-decoration: none;
-}
-
-a:active {
-  color: white;
-}
-
-.navBar {
-  display: flex;
-  align-items: center;
-  padding: 1vw;
-  width: 100%;
-  z-index: 2;
-  position: fixed;
-  top: 0;
-  height: 6vw;
-  border-bottom: 2px solid black;
-  border-radius: 0 0 10px 10px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(15px);
-}
-
-.homeButton {
-  margin-left: 2vw;
-  font-size: 2vw;
-}
-
-h1 {
-  font-size: 4vw;
-}
-
-.tetris {
-  margin-top: 6vw;
-  position: relative;
-  width: 80vw;
-  height: 80vh;
-  background: rgb(10, 10, 10);
-  padding: 2vw 6vw;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(10, 30px);
-  grid-template-rows: repeat(20, 30px);
-  gap: 1px;
-  height: 34.3vw;
-  border: 1px solid white;
-  background-color: grey;
-  margin: 0;
-}
-
-.grid div {
-  width: 30px;
-  height: 30px;
-  border: 0.5px solid black;
-  background: black;
-}
-
-.block {
-  border-radius: 5px;
-}
-
-.block.I {
-  box-shadow: 0 4px 8px rgb(50, 180, 180);
-  border: 5px solid rgb(50, 180, 180);
-}
-
-.block.O {
-  border: 5px solid rgb(248, 0, 248);
-  box-shadow: 0 4px 8px rgb(248, 0, 248);
-}
-
-.block.T {
-  border: 5px solid rgb(0, 0, 215);
-  box-shadow: 0 4px 8px rgb(0, 0, 215);
-}
-
-.block.S {
-  border: 5px solid rgb(255, 0, 0);
-  box-shadow: 0 4px 8px rgb(255, 0, 0);
-}
-
-.block.Z {
-  border: 5px solid rgb(255, 255, 0);
-  box-shadow: 0 4px 8px rgb(255, 255, 0);
-}
-
-.block.J {
-  border: 5px solid rgb(255, 165, 0);
-  box-shadow: 0 4px 8px rgb(255, 165, 0);
-}
-
-.block.L {
-  border: 5px solid rgb(30, 128, 30);
-  box-shadow: 0 4px 8px rgb(30, 128, 30);
-}
 
 .scores {
-  width: 30%;
-  display: block;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
+    display: flex; /* Enable Flexbox */
+    align-items: center;
+    justify-content: center;
+margin-top: 10vh;
+height: 15vh;
+    width: 100%;
 }
 
-#score {
-  display: block;
+.scores img {
+
+	height: 20vw !important;
 }
 
-#startBtn {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      width: auto;
+	margin: 5vh auto;
+      grid-auto-rows: 1fr;
+      gap: 0.3vh;
+      height: 72vh;
+      aspect-ratio: 10 / 20;
+      border: 1px solid white;
+      background-color: grey;
+    }
+
+      .logo-container {
+        order: -1;
+        margin-bottom: 2vh;
+      }
+
+      .navBar {
+        height: 10vh;
+      }
+
+      .homeButton {
+        font-size: 5vw;
+      }
+
+      h1 {
+        font-size: 6vw;
+      }
+    }
+
+
+/* Show desktop button by default, hide mobile button */
+
+
+#startBtnM {
+  display: none;
+}
+
+/* On mobile, switch visibility */
+@media (max-width: 768px) {
+  #startBtn {
+    display: none;
+  }
+
+#startBtnM {
+    display: block;
+      padding: 10px 20px;
+margin: 0 auto;
+      font-size: 16px;
+	width: 100px;
+      cursor: pointer;
+  }
 }
