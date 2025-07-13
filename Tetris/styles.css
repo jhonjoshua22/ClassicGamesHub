@@ -14,26 +14,6 @@
       color: white;
     }
 
-html {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  max-height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-}
-
-@media (max-width: 768px) {
-  html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-  touch-action: manipulation; /* Helps with double-tap zoom prevention */
-}
-
-}
-
     a {
       text-decoration: none;
       color: white;
@@ -152,16 +132,13 @@ html {
     }
 
     @media (max-width: 768px) {
-    .tetris {
+	  .tetris {
     width: 100vw;
-    height: calc(100vh - 10vh); /* if navBar is 10vh on mobile */
-    margin: 0;
+    height: 100vh;
+    max-width: 100%;
+    overflow-x: hidden;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    margin-top: 10vh;
   }
 
   .grid {
